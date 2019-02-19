@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="dist/styles.css">
+</head>
+<body><!-- personal__main -->
+<div id="app" class="surface"><!-- personal__container -->
+    <div class="content"><!-- board -->
+        <div class="board-wrapper"><!-- board__canvas -->
+            <div class="board-main"><!-- board__main -->
+                <div class="board-canvas"><!-- board__wrapper -->
+                    <div class="board"><!-- lists -->
+                        <div class="list-wrapper">
+                            <div class="list">
+                                <h2 class="list__title">Parcel</h2>
+                                <draggable v-model="emptyParcels" class="dragArea list__cards"
+                                           :options="dragParcelsOptions" :move="onMove">
+                                    <sticker-item class="card" v-for="(item, index) in emptyParcels" :item="item"
+                                                  :key="`${item.id}__parcel`"></sticker-item>
+                                </draggable>
+                                <a class="list__add-card" @click="addParcelOpen()">Add parcel…</a>
+                                <add-Parcel v-if="active"></add-Parcel>
+                            </div>
+
+                        </div><!--  -->
+                        <div class="list-wrapper">
+                            <div class="list">
+                                <h2 class="list__title">Shipment</h2>
+                                <draggable v-model="waitingShipments" class="dragArea list__cards"
+                                           :options="dragShipmentsOptions" @update="onMoveShip" :move="onMoveShip"
+                                           id="waiting-shipments">
+                                        <shipment-item v-for="item in waitingShipments" :item="item"
+                                                       :parcels="getParcels(item.id)" :key="item.id + 'wait'"
+                                                       :drag-options="dragParcelsOptions"></shipment-item>
+                                </draggable>
+                                <a class="list__add-card" href="#">Добавить карточку…</a>
+                            </div>
+                        </div>
+                        <div class="list-wrapper">
+                            <div class="list">
+                                <h2 class="list__title">To send</h2>
+                                <draggable v-model="toSendShipments" class="dragArea list__cards"
+                                           :options="dragShipmentsOptions" @update="onMoveShip" :move="onMoveShip">
+                                        <shipment-item v-for="item in toSendShipments" :item="item"
+                                                       :parcels="getParcels(item.id)" :key="`${item.id}to-send`"
+                                                       :drag-options="dragParcelsOptions"></shipment-item>
+                                </draggable>
+                                <a class="list__add-card" href="#">Добавить карточку…</a>
+                            </div>
+                        </div>
+                        <div class="list-wrapper">
+                            <div class="list">
+                                <h2 class="list__title">Deliver</h2>
+                                <div class="list__cards">
+                                    <shipment-item v-for="item in deliverShipments" :item="item"
+                                                   :parcels="getParcels(item.id)"
+                                                   :key="`${item.id}deliver`"></shipment-item>
+                                </div>
+                                <a class="list__add-card" href="#">Добавить карточку…</a>
+                            </div>
+                        </div>
+                        <div class="list-wrapper">
+                            <div class="list">
+                                <h2 class="list__title">Archive</h2>
+                                <div class="list__cards">
+                                    <shipment-item v-for="item in archiveShipments" :item="item"
+                                                   :parcels="getParcels(item.id)"
+                                                   :key="`${item.id}archive`"></shipment-item>
+                                </div>
+                                <a class="list__add-card" href="#">Добавить карточку…</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-template" id="sticker-component-tpl">
+    <a class="" href="#">
+        <div class="card__details">
+            <div class="card__labels">
+                <span class="label" title="Status">{{item.status}}</span>
+            </div>
+            <span class="card__title">
+            <span>#{{item.id}}</span>
+        </span>
+            <div class="card__descriptions">
+                <div class="description" title="Description">
+                    <span class="description__text">{{item.date}}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</script>
+
+<script type="text/x-template" id="shipment-component-tpl">
+    <div class="shipment shipment-box">
+        <h4 class="shipment__title"> BOX #{{item.id}}</h4>
+        <draggable v-model="myParcels" class="dragArea list__cards" :options="dragOptions" :move="onMove">
+            <sticker-item class="card" v-for="(parcel, index) in myParcels" :item="parcel"
+                          :key="`${parcel.id}_${item.id}`"></sticker-item>
+        </draggable>
+        <span class="placeholder" v-if="!parcelsLength">Drag the parcel here</span>
+    </div>
+</script>
+
+<script type="text/x-template" id="addParcel-template">
+    <div>
+        <div class="addParcel__bg"></div>
+        <div class="addParcel__content">
+            <h1>Add Parcel</h1>
+            <div class="elements el1">
+                <label class="addParcel__label">Incoming Tracking Code</label>
+                <input v-model="parcelCode" type="text" class="addParcel__input">
+            </div>
+            <div class="elements el2">
+                <label class="addParcel__label">Product Category</label>
+                <input type="text" class="addParcel__input" placeholder="Will be select">
+            </div>
+            <div class="elements el3">
+                <label class="addParcel__label">Product</label>
+                <input type="text" class="addParcel__input" placeholder="??????? Will be select ??????">
+            </div>
+            <div class="elements el4">
+                <label class="addParcel__label">Quantity</label>
+                <input type="text" class="addParcel__input">
+            </div>
+            <div class="elements el5">
+                <label class="addParcel__label">Value per Item</label>
+                <input type="text" class="addParcel__input">
+            </div>
+            <div class="elements el6">
+                <label class="addParcel__label"><strong>Total:</strong></label>
+                <input type="text" class="addParcel__input">
+            </div>
+            <div class="elements el7">
+                <label class="addParcel__label">Carrier</label>
+                <input type="text" class="addParcel__input" placeholder="Will be select">
+            </div>
+            <div class="elements el8">
+                <label class="addParcel__label">Delivery Address</label>
+                <input type="text" class="addParcel__input" placeholder="Will be select">
+            </div>
+            <div class="elements el9">
+                <label class="addParcel__label">Shipping Method</label>
+                <input type="text" class="addParcel__input" placeholder="Will be select">
+            </div>
+            <div class="elements el10">
+                <label class="addParcel__label">Payment Type</label>
+                <input type="text" class="addParcel__input" placeholder="Will be select">
+            </div>
+            <a class="list__add-card" @click="addParcelClose()">Add parcel…</a>
+        </div>
+    </div>
+</script>
+<script src="bower_components/vue/dist/vue.js"></script>
+<script src="bower_components/axios/dist/axios.js"></script>
+<script src="dist/all.js"></script>
+</body>
+</html>

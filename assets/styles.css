@@ -1,0 +1,185 @@
+body, html {
+  color: #333;
+  font: 14px Helvetica Neue, Arial, Helvetica, sans-serif;
+  line-height: 18px;
+  height: 100%; }
+
+body {
+  background-color: #0079bf;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+  z-index: 0; }
+
+.surface {
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
+
+.content {
+  flex-grow: 1;
+  outline: none;
+  position: relative;
+  overflow-y: auto; }
+
+.board {
+  user-select: none;
+  white-space: nowrap;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  padding-right: 56px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+  .board-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+  .board-main {
+    height: 100%;
+    display: flex; }
+  .board-canvas {
+    position: relative;
+    flex-grow: 1; }
+
+.list-wrapper {
+  width: 270px;
+  margin: 0 5px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block; }
+
+.list {
+  background: #e2e4e6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  position: relative; }
+  .list__title {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    position: relative;
+    min-height: 18px; }
+  .list__cards {
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 4px;
+    padding: 0 4px;
+    z-index: 1;
+    min-height: 0; }
+  .list__add-card {
+    border-radius: 0 0 3px 3px;
+    color: #838c91;
+    display: block;
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    position: relative;
+    text-decoration: none;
+    user-select: none; }
+  .list .card {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 6px;
+    max-width: 300px;
+    min-height: 20px;
+    position: relative;
+    text-decoration: none;
+    z-index: 0; }
+    .list .card__details {
+      overflow: hidden;
+      padding: 6px 6px 2px 8px;
+      position: relative;
+      z-index: 10; }
+    .list .card__labels {
+      margin: 2px 0;
+      overflow: auto;
+      position: relative; }
+      .list .card__labels .label {
+        height: 16px;
+        line-height: 16px;
+        padding: 0 8px;
+        max-width: 198px;
+        float: left;
+        font-size: 12px;
+        font-weight: 600;
+        margin: 0 3px 3px 0;
+        min-width: 42px;
+        text-shadow: none;
+        width: auto;
+        background-color: #51e898;
+        border-radius: 3px;
+        color: #fff;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -webkit-font-smoothing: antialiased; }
+    .list .card__title {
+      clear: both;
+      display: block;
+      margin: 0 0 4px;
+      overflow: hidden;
+      text-decoration: none;
+      word-wrap: break-word;
+      color: #4d4d4d; }
+    .list .card__descriptions {
+      float: left;
+      max-width: 100%;
+      padding-bottom: 2px; }
+      .list .card__descriptions .description {
+        vertical-align: top;
+        color: #838c91;
+        display: inline-block;
+        margin: 0 4px 4px 0;
+        max-width: 100%;
+        min-height: 18px;
+        overflow: hidden;
+        position: relative;
+        padding: 1px 2px;
+        text-decoration: none;
+        text-overflow: ellipsis; }
+        .list .card__descriptions .description__text {
+          vertical-align: top;
+          font-size: 12px;
+          padding: 0 2px;
+          white-space: nowrap; }
+
+.shipment__title {
+  text-align: center;
+  margin: 4px 0;
+  color: #3A96CD; }
+
+.shipment-box {
+  border-radius: 5px;
+  padding: 0;
+  border: 3px solid #1892B2;
+  margin-bottom: 5px; }
+  .shipment-box .placeholder {
+    color: #838c91;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px; }
+
+.shipment .card {
+  margin: 0 5px 5px; }
+  .shipment .card__details {
+    display: flex; }
+  .shipment .card__labels {
+    display: none; }
+
+/*# sourceMappingURL=styles.css.map */
